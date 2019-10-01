@@ -34,6 +34,7 @@
 	String fields = "ts_code,symbol,name,area,industry,list_date";
 	
 	// 调用接口获取数据
+	// 返回值对象名称参考就是将对应的Param对象的"Param"换成"Response"
 	Collection<StockBasicResponse> response = toShare.stock_basic(param, fields);
 	// do sth with the response collection...
 
