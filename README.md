@@ -33,13 +33,6 @@
 
 <p>除了传统的调用方式以外，为喜欢lambda和函数式调用的同学准备了基于回调函数的接口：</p>
 	
-	// 前面都是一样的
-	ToShare toshare = new ToShare("token");
-	StockBasicParam param = new StockBasicParam();
-	param.setExchange("");
-	param.setListStatus("L");
-	String fields = "ts_code,symbol,name,area,industry,list_date";
-	
 	// 通过回调函数处理结果
 	toShare.stock_basic(request, fields, resposne -> {
 		// do sth with the response collection
@@ -47,11 +40,14 @@
 
 <p>此外，还有比较浅层的封装方式，可以直接通过http接口的字段对数据进行调用：</p>
 
-	// 首先封装request对象
+	// 首先声明ToShare对象
+	ToShare toShare = new ToShare("token");
+	
+	// 封装request对象
 	// 一共有4个参数，参考https://tushare.pro/document/1?doc_id=130
+	// 其中token在声明toShare对象时已经输入进去了，所以还需要设置三个参数
 	BasicRequest request = new BasicReqeust();
 	request.setApi_name("stock_basic");
-	request.setToken("token");
 	request.setParams("{\"exchange\": \"\", \"list_status\": \"L\"}");
 	request.setFileds("ts_code,symbol,name,area,industry,list_date");
 	
@@ -60,14 +56,7 @@
 	// do sth with the response collection...
 	
 <p>同样，浅层封装也实现了回调函数处理的api：</p>
-		
-	// 前面都一样
-	BasicRequest request = new BasicReqeust();
-	request.setApi_name("stock_basic");
-	request.setToken("token");
-	request.setParams("{\"exchange\": \"\", \"list_status\": \"L\"}");
-	request.setFileds("ts_code,symbol,name,area,industry,list_date");
-	
+			
 	// 在回调函数中处理数据
 	toShare.http_api(request, response -> {
 		// do sth with the response collection...
