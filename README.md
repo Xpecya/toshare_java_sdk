@@ -18,6 +18,10 @@
 	// 然后构造stock_basic接口的参数
 	// 参数对象名就是接口名的驼峰命名法写法+Param
 	// 所有接口统一用此命名模式
+	// 注意：类似income等拥有对应vip接口的
+	// 由于其vip接口的参数和非vip接口一致
+	// 所以本项目没有另开新的IncomeVipParam对象
+	// 统一用IncomeParam对象
 	StockBasicParam param = new StockBasicParam();
 	
 	// 注入参数，这里参考官方python示例
