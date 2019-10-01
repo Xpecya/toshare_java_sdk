@@ -42,7 +42,7 @@
 	String fields = "ts_code,symbol,name,area,industry,list_date";
 	
 	// 通过回调函数处理结果
-	toShare.stock_basoc(request, fields, resposne -> {
+	toShare.stock_basic(request, fields, resposne -> {
 		// do sth with the response collection
 	});
 
