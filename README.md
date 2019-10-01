@@ -12,9 +12,9 @@
 <br />
 <p>api调用示例(这里以官方stock_basic接口为例)：</p>
 <br />
-```
-// 首先构造一个ToShare对象
-ToShare toshare = new ToShare("token");
+
+  // 首先构造一个ToShare对象
+  ToShare toshare = new ToShare("token");
 
 // 然后构造stock_basic接口的参数
 // 参数对象名就是接口名的驼峰命名法写法+Param
@@ -32,4 +32,4 @@ String fields = "ts_code,symbol,name,area,industry,list_date";
 // 调用接口获取数据
 Collection<StockBasicResponse> response = toShare.stock_basic(param, fields);
 // do sth with the response collection...
-```
+
