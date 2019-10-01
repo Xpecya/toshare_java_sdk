@@ -11,7 +11,8 @@
 
 <p>api调用示例(这里以官方stock_basic接口为例)：</p>
 
-	// 首先构造一个ToShare对象
+	// 首先构造一个ToShare对象,以用户token为参数
+	// 每次http请求会发送此token
 	ToShare toshare = new ToShare("token");
 	
 	// 然后构造stock_basic接口的参数
@@ -46,10 +47,15 @@
 	// 封装request对象
 	// 一共有4个参数，参考https://tushare.pro/document/1?doc_id=130
 	// 其中token在声明toShare对象时已经输入进去了，所以还需要设置三个参数
+	
 	BasicRequest request = new BasicReqeust();
 	request.setApi_name("stock_basic");
 	request.setParams("{\"exchange\": \"\", \"list_status\": \"L\"}");
 	request.setFileds("ts_code,symbol,name,area,industry,list_date");
+	// 如果你需要设置一个跟前面不一样的token，也可以。
+	// 在本次http请求中以你设置的token为准。
+	// 这并不会改变toShare对象自身的token值。
+	// request.setToken("new token");
 	
 	// 调用接口获得数据
 	Collection<Map<String, Object>> dataCollection = toShare.http_api(request);
