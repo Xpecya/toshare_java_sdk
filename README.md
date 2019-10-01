@@ -22,6 +22,7 @@
 	// 由于其vip接口的参数和非vip接口一致
 	// 所以本项目没有另开新的IncomeVipParam对象
 	// 统一用IncomeParam对象
+	// 其他接口同理
 	StockBasicParam param = new StockBasicParam();
 	
 	// 注入参数，这里参考官方python示例
