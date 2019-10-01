@@ -1,9 +1,12 @@
 package com.xpecya;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xpecya.requestStruct.*;
 import com.xpecya.responseStruct.*;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
@@ -60,6 +63,18 @@ public class ToShare {
                                String fields, Consumer<Collection<Res>> handler) {
         BasicRequest<Param> basicRequest = getVipRequest(request, fields);
         HttpUtil.sendRequest(basicRequest, responseClass, handler);
+    }
+
+    public Collection<Map<String, Object>> http_api(BasicRequest request) {
+        Collection<JSONObject>[] jsonContainer = new Collection[1];
+        HttpUtil.sendRequest(request, map -> jsonContainer[0] = map);
+        Collection<JSONObject> jsonCollection = jsonContainer[0];
+        return new HashSet<>(jsonCollection);
+    }
+
+    public void http_api(BasicRequest request, Consumer<Collection<Map<String, Object>>> handler) {
+        Collection<Map<String, Object>> dataCollection = http_api(request);
+        handler.accept(dataCollection);
     }
 
     public void stock_basic(StockBasicParam request,
@@ -298,5 +313,25 @@ public class ToShare {
     public Collection<IncomeResponse> income_vip(IncomeParam request,
                                              String fields) {
         return vipRequest(request, IncomeResponse.class, fields);
+    }
+
+    public void halancesheet(BalanceSheetParam request,
+                       String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
+        request(request, BalanceSheetResponse.class, fields, handler);
+    }
+
+    public Collection<BalanceSheetResponse> halancesheet(BalanceSheetParam request,
+                                             String fields) {
+        return request(request, BalanceSheetResponse.class, fields);
+    }
+
+    public void halancesheet_vip(BalanceSheetParam request,
+                           String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
+        vipRequest(request, BalanceSheetResponse.class, fields, handler);
+    }
+
+    public Collection<BalanceSheetResponse> halancesheet_vip(BalanceSheetParam request,
+                                                 String fields) {
+        return vipRequest(request, BalanceSheetResponse.class, fields);
     }
 }

@@ -1,6 +1,7 @@
 package com.xpecya;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xpecya.requestStruct.BasicRequest;
 import com.xpecya.responseStruct.BasicData;
 import com.xpecya.responseStruct.BasicResponse;
@@ -9,6 +10,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Map;
 import java.util.function.Consumer;
 
 class HttpUtil {
@@ -18,9 +20,7 @@ class HttpUtil {
 
     private HttpUtil() {}
 
-    static <T> void sendRequest(BasicRequest request,
-                                       Class<T> responseClass,
-                                       Consumer<Collection<T>> responseHandler) {
+    private static String doSendRequest(BasicRequest request) {
         try {
             URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -39,22 +39,7 @@ class HttpUtil {
                 InputStream inputStream = connection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(reader);
-                String line = bufferedReader.readLine();
-                BasicResponse responseObject = JSON.parseObject(line, BasicResponse.class);
-
-                Integer code = responseObject.getCode();
-                if (code == 0) {
-                    BasicData basicData = responseObject.getData();
-
-                    Collection<T> data = basicData.getInstances(responseClass);
-                    responseHandler.accept(data);
-                } else {
-                    String msg = responseObject.getMsg();
-                    System.err.println("请求失败！ error message: " + msg);
-                }
-                bufferedReader.close();
-                reader.close();
-                inputStream.close();
+                return bufferedReader.readLine();
             } else {
                 InputStream errorStream = connection.getErrorStream();
                 InputStreamReader reader = new InputStreamReader(errorStream);
@@ -67,10 +52,36 @@ class HttpUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         }
+        return null;
+    }
+
+    static <T> void sendRequest(BasicRequest request,
+                                       Class<T> responseClass,
+                                       Consumer<Collection<T>> responseHandler) {
+        String line = doSendRequest(request);
+        if (line == null) return;
+        BasicResponse responseObject = JSON.parseObject(line, BasicResponse.class);
+        Integer code = responseObject.getCode();
+        if (code == 0) {
+            BasicData basicData = responseObject.getData();
+
+            Collection<T> data = null;
+            try {
+                data = basicData.getInstances(responseClass);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            responseHandler.accept(data);
+        } else {
+            String msg = responseObject.getMsg();
+            System.err.println("请求失败！ error message: " + msg);
+        }
+    }
+
+    static void sendRequest(BasicRequest request, Consumer<Collection<JSONObject>> handler) {
+        sendRequest(request, JSONObject.class, handler);
     }
 }
