@@ -81,7 +81,18 @@ class HttpUtil {
         }
     }
 
-    static void sendRequest(BasicRequest request, Consumer<Collection<JSONObject>> handler) {
-        sendRequest(request, JSONObject.class, handler);
+    static void sendRequest(BasicRequest request, Consumer<Collection<Map<String, Object>>> handler) {
+        String line = doSendRequest(request);
+        if (line == null) return;
+        BasicResponse responseObject = JSON.parseObject(line, BasicResponse.class);
+        Integer code = responseObject.getCode();
+        if (code == 0) {
+            BasicData basicData = responseObject.getData();
+            Collection<Map<String, Object>> data = basicData.getInstances();
+            handler.accept(data);
+        } else {
+            String msg = responseObject.getMsg();
+            System.err.println("请求失败！ error message: " + msg);
+        }
     }
 }

@@ -1,11 +1,9 @@
 package com.xpecya;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xpecya.requestStruct.*;
 import com.xpecya.responseStruct.*;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -66,15 +64,13 @@ public class ToShare {
     }
 
     public Collection<Map<String, Object>> http_api(BasicRequest request) {
-        Collection<JSONObject>[] jsonContainer = new Collection[1];
-        HttpUtil.sendRequest(request, map -> jsonContainer[0] = map);
-        Collection<JSONObject> jsonCollection = jsonContainer[0];
-        return new HashSet<>(jsonCollection);
+        Collection<Map<String, Object>>[] dataContainer = new Collection[1];
+        HttpUtil.sendRequest(request, map -> dataContainer[0] = map);
+        return dataContainer[0];
     }
 
     public void http_api(BasicRequest request, Consumer<Collection<Map<String, Object>>> handler) {
-        Collection<Map<String, Object>> dataCollection = http_api(request);
-        handler.accept(dataCollection);
+        HttpUtil.sendRequest(request, handler);
     }
 
     public void stock_basic(StockBasicParam request,
@@ -315,23 +311,153 @@ public class ToShare {
         return vipRequest(request, IncomeResponse.class, fields);
     }
 
-    public void halancesheet(BalanceSheetParam request,
-                       String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
+    public void balancesheet(BalanceSheetParam request,
+                             String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
         request(request, BalanceSheetResponse.class, fields, handler);
     }
 
-    public Collection<BalanceSheetResponse> halancesheet(BalanceSheetParam request,
-                                             String fields) {
+    public Collection<BalanceSheetResponse> balancesheet(BalanceSheetParam request,
+                                                         String fields) {
         return request(request, BalanceSheetResponse.class, fields);
     }
 
-    public void halancesheet_vip(BalanceSheetParam request,
-                           String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
+    public void balancesheet_vip(BalanceSheetParam request,
+                                 String fields, Consumer<Collection<BalanceSheetResponse>> handler) {
         vipRequest(request, BalanceSheetResponse.class, fields, handler);
     }
 
-    public Collection<BalanceSheetResponse> halancesheet_vip(BalanceSheetParam request,
-                                                 String fields) {
+    public Collection<BalanceSheetResponse> balancesheet_vip(BalanceSheetParam request,
+                                                             String fields) {
         return vipRequest(request, BalanceSheetResponse.class, fields);
+    }
+
+    public void cashflow(CashFlowParam request,
+                         String fields, Consumer<Collection<CashFlowResponse>> handler) {
+        request(request, CashFlowResponse.class, fields, handler);
+    }
+
+    public Collection<CashFlowResponse> cashflow(CashFlowParam request,
+                                                 String fields) {
+        return request(request, CashFlowResponse.class, fields);
+    }
+
+    public void cashflow_vip(CashFlowParam request,
+                             String fields, Consumer<Collection<CashFlowResponse>> handler) {
+        vipRequest(request, CashFlowResponse.class, fields, handler);
+    }
+
+    public Collection<CashFlowResponse> cashflow_vip(CashFlowParam request,
+                                                     String fields) {
+        return vipRequest(request, CashFlowResponse.class, fields);
+    }
+
+    public void forecast(ForecastParam request,
+                             String fields, Consumer<Collection<ForecastResponse>> handler) {
+        request(request, ForecastResponse.class, fields, handler);
+    }
+
+    public Collection<ForecastResponse> forecast(ForecastParam request,
+                                                         String fields) {
+        return request(request, ForecastResponse.class, fields);
+    }
+
+    public void forecast_vip(ForecastParam request,
+                                 String fields, Consumer<Collection<ForecastResponse>> handler) {
+        vipRequest(request, ForecastResponse.class, fields, handler);
+    }
+
+    public Collection<ForecastResponse> forecast_vip(ForecastParam request,
+                                                             String fields) {
+        return vipRequest(request, ForecastResponse.class, fields);
+    }
+
+    public void express(ExpressParam request,
+                         String fields, Consumer<Collection<ExpressResponse>> handler) {
+        request(request, ExpressResponse.class, fields, handler);
+    }
+
+    public Collection<ExpressResponse> express(ExpressParam request,
+                                                 String fields) {
+        return request(request, ExpressResponse.class, fields);
+    }
+
+    public void express_vip(ExpressParam request,
+                             String fields, Consumer<Collection<ExpressResponse>> handler) {
+        vipRequest(request, ExpressResponse.class, fields, handler);
+    }
+
+    public Collection<ExpressResponse> express_vip(ExpressParam request,
+                                                     String fields) {
+        return vipRequest(request, ExpressResponse.class, fields);
+    }
+
+    public void dividend(DividendParam request,
+                        String fields, Consumer<Collection<DividendResponse>> handler) {
+        request(request, DividendResponse.class, fields, handler);
+    }
+
+    public Collection<DividendResponse> dividend(DividendParam request,
+                                               String fields) {
+        return request(request, DividendResponse.class, fields);
+    }
+
+    public void fina_indicator(FinaIndicatorParam request,
+                        String fields, Consumer<Collection<FinaIndicatorResponse>> handler) {
+        request(request, FinaIndicatorResponse.class, fields, handler);
+    }
+
+    public Collection<FinaIndicatorResponse> fina_indicator(FinaIndicatorParam request,
+                                               String fields) {
+        return request(request, FinaIndicatorResponse.class, fields);
+    }
+
+    public void fina_indicator_vip(FinaIndicatorParam request,
+                            String fields, Consumer<Collection<FinaIndicatorResponse>> handler) {
+        vipRequest(request, FinaIndicatorResponse.class, fields, handler);
+    }
+
+    public Collection<FinaIndicatorResponse> fina_indicator_vip(FinaIndicatorParam request,
+                                                   String fields) {
+        return vipRequest(request, FinaIndicatorResponse.class, fields);
+    }
+
+    public void fina_audit(FinaAuditParam request,
+                               String fields, Consumer<Collection<FinaAuditResponse>> handler) {
+        request(request, FinaAuditResponse.class, fields, handler);
+    }
+
+    public Collection<FinaAuditResponse> fina_audit(FinaAuditParam request,
+                                                            String fields) {
+        return request(request, FinaAuditResponse.class, fields);
+    }
+
+    public void fina_mainbz(FinaMainBzParam request,
+                               String fields, Consumer<Collection<FinaMainBzResponse>> handler) {
+        request(request, FinaMainBzResponse.class, fields, handler);
+    }
+
+    public Collection<FinaMainBzResponse> fina_mainbz(FinaMainBzParam request,
+                                                            String fields) {
+        return request(request, FinaMainBzResponse.class, fields);
+    }
+
+    public void fina_mainbz_vip(FinaMainBzParam request,
+                                   String fields, Consumer<Collection<FinaMainBzResponse>> handler) {
+        vipRequest(request, FinaMainBzResponse.class, fields, handler);
+    }
+
+    public Collection<FinaMainBzResponse> fina_mainbz_vip(FinaMainBzParam request,
+                                                                String fields) {
+        return vipRequest(request, FinaMainBzResponse.class, fields);
+    }
+
+    public void disclosure_date(DisclosureDateParam request,
+                            String fields, Consumer<Collection<DisclosureDateResponse>> handler) {
+        request(request, DisclosureDateResponse.class, fields, handler);
+    }
+
+    public Collection<DisclosureDateResponse> disclosure_date(DisclosureDateParam request,
+                                                      String fields) {
+        return request(request, DisclosureDateResponse.class, fields);
     }
 }

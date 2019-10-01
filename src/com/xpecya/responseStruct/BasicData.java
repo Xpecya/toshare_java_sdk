@@ -5,7 +5,9 @@ import lombok.Setter;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -33,15 +35,29 @@ public class BasicData {
             }
         }
         int itemLength = items.length;
-        int dataLength = items[0].length;
         for (int i = 0; i < itemLength; i++) {
             String[] data = items[i];
             T t = itemClass.newInstance();
-            for (int j = 0; j < dataLength; j++) {
+            for (int j = 0; j < length; j++) {
                 Field dataField = dataFields[j];
                 dataField.set(t, data[j]);
             }
             collection.add(t);
+        }
+        return collection;
+    }
+
+    public Collection<Map<String, Object>> getInstances() {
+        Collection<Map<String, Object>> collection = new HashSet<>();
+        int length = fields.length;
+        int itemLength = items.length;
+        for (int i = 0; i < itemLength; i++) {
+            String[] data = items[i];
+            Map<String, Object> dataMap = new HashMap<>();
+            for (int j = 0; j < length; j++) {
+                dataMap.put(fields[j], data[j]);
+            }
+            collection.add(dataMap);
         }
         return collection;
     }
